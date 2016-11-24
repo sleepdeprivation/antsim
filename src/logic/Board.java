@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.PriorityQueue;
 
+import Ant.Cell;
+import Pheromone.PheromoneAreaMap;
 import request.Request;
 
 public class Board {
@@ -11,6 +13,7 @@ public class Board {
 	int numCols;
 	Cell[][] grid;
 	int timerInterval;
+	PheromoneAreaMap pheromoneMap = new PheromoneAreaMap();
 	PriorityQueue<Request> requestQueue = new PriorityQueue<Request>();
 	
 	public Board(int row, int col){
@@ -33,7 +36,7 @@ public class Board {
 			if(grid[ii][kk] != null){
 				location[0] = ii;
 				location[0] = kk;
-				grid[ii][kk].loadNeighboorhood(grid, location);
+				grid[ii][kk].loadNeighboorhood(grid, location, this.pheromoneMap);
 				grid[ii][kk].step(this.requestQueue);
 			}
 		}}

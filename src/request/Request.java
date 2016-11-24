@@ -1,6 +1,6 @@
 package request;
 
-import logic.Cell;
+import Ant.Cell;
 
 public interface Request {
 	Cell requestMaker = null;

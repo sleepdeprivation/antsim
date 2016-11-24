@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -75,6 +76,9 @@ public class MainFrame extends JPanel{
 	
 	  
 	public static void main(String[] args) throws IOException {
-		MainFrame frame = new MainFrame();
+		//MainFrame frame = new MainFrame();
+		int[] one = new int[]{ 1 , 2 } ;
+		int[] two = new int[]{ 1 , 2 } ;
+		System.out.println(Arrays.equals(one, two));
 	} 
 }
