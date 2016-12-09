@@ -2,8 +2,8 @@ package request;
 
 import Ant.Cell;
 
-public interface Request {
-	Cell requestMaker = null;
-	int[] from = new int[2];
-	int[] to = new int[2];	
+public class Request {
+	public Cell requestMaker = null;
+	public int[] from = new int[2];
+	public int[] to = new int[2];
 }

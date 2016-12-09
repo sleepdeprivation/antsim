@@ -21,7 +21,7 @@ public abstract class Pheromone {
 		decay()
 			simply subtract dDecay
 	 */
-	int decayCounter = 1000; //arbitrary
+	int decayCounter = 1000000; //arbitrary
 	int dDecay = 1;
 	int pheromoneType = 0;
 	public abstract boolean decay();

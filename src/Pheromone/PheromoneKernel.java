@@ -5,6 +5,9 @@ import java.util.HashMap;
 
 import logic.CoordinatePair;
 
+/*
+ * Controls/emits pheromones and decays them
+ */
 public abstract class PheromoneKernel{
 	/*
 	Controls and creates pheromones

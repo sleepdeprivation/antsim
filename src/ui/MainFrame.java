@@ -24,8 +24,7 @@ public class MainFrame extends JPanel{
 	
 	ScheduledExecutorService clock;// = new ThreadPoolExecutor();
 	Board board;
-	BufferedImage blankImage;
-	BufferedImage im;
+	BoardImageGenerator imageGenerator;
 	public int NUMROWS = 1000;
 	public int NUMCOLS = 1000;
 	
@@ -34,8 +33,9 @@ public class MainFrame extends JPanel{
 		@Override
 		public void run() {
 			System.out.println("tick...");
-			board.stepAllCells();
-			board.createIntegerBoard(im);
+			board.run();
+			imageGenerator.createIntegerBoard();
+			imageGenerator.createPheromoneImage();
 			repaint();
 		}
 
@@ -44,13 +44,14 @@ public class MainFrame extends JPanel{
 	public MainFrame() {
 		setUpWindow();
 		board = new Board(NUMROWS, NUMCOLS);
-		blankImage = new BufferedImage(NUMCOLS, NUMROWS, BufferedImage.TYPE_INT_RGB);
-		im = new BufferedImage(NUMCOLS, NUMROWS, BufferedImage.TYPE_INT_RGB);
+		imageGenerator = new BoardImageGenerator(board);
+//		board.run();
+//		board.run();
 		clock = Executors.newSingleThreadScheduledExecutor();
 		clock.scheduleAtFixedRate(
 				    runner,
 				    0,
-				    10, TimeUnit.MILLISECONDS);
+				    200, TimeUnit.MILLISECONDS);
 	}
 
 	public void setUpWindow(){
@@ -71,14 +72,15 @@ public class MainFrame extends JPanel{
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(im, 0, 0, null);
+		g.drawImage(imageGenerator.im, 0, 0, null);
+		g.drawImage(imageGenerator.pIm, 0, 0, null);		
 	}
 	
 	  
 	public static void main(String[] args) throws IOException {
-		//MainFrame frame = new MainFrame();
-		int[] one = new int[]{ 1 , 2 } ;
-		int[] two = new int[]{ 1 , 2 } ;
-		System.out.println(Arrays.equals(one, two));
+		MainFrame frame = new MainFrame();
+		//int[] one = new int[]{ 1 , 2 } ;
+		//int[] two = new int[]{ 1 , 2 } ;
+		//System.out.println(Arrays.equals(one, two));
 	} 
 }
