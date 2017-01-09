@@ -21,10 +21,15 @@ public abstract class Pheromone {
 		decay()
 			simply subtract dDecay
 	 */
-	int decayCounter = 1000000; //arbitrary
+	
+	public static final int DECAY_COUNTER_MAX = 500;
+	
+	int decayCounter = DECAY_COUNTER_MAX; //arbitrary
 	int dDecay = 1;
 	int pheromoneType = 0;
+
 	public abstract boolean decay();
+	public abstract void renew();
 	public boolean hasDecayed(){
 		return (decayCounter <= 0);
 	}
@@ -49,6 +54,11 @@ public abstract class Pheromone {
 				decayCounter -= dDecay;
 			}
 			return hasDecayed();
+		}
+		
+		@Override
+		public void renew(){
+			this.decayCounter = Pheromone.DECAY_COUNTER_MAX;
 		}
 		
 	}

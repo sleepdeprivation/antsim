@@ -6,6 +6,10 @@ public interface NumberGenerator {
 	Random random = new Random();
 	public int generate();
 	
+	/*
+	 * UniformGenerator
+	 * Generate a random integer on the interval [a, b)
+	 */
 	public static class UniformGenerator
 			implements NumberGenerator
 	{
@@ -25,4 +29,5 @@ public interface NumberGenerator {
 			return random.nextInt(top - bottom) + bottom;
 		}
 	}
+
 }

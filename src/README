@@ -1,0 +1,4 @@
+The report acts as documentation.
+To run, basically all you need is
+make all
+make run

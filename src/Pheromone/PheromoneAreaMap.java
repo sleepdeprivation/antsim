@@ -8,42 +8,36 @@ import java.util.HashMap;
 import java.util.List;
 
 import Ant.Cell;
+import logic.CellGrid2D;
 import logic.CoordinatePair;
 
 /*
- * Controls two separate entities
- * A hashmap sending coordinates lists of pheromones
- * A list of all kernels in operation
+ * Another Cell Grid that deals with pheromones
+ * TODO: parameterize with Pheromone when
+ * arbitrary pheromones are implemented
  */
-public class PheromoneAreaMap extends HashMap<CoordinatePair, ArrayList<Pheromone>>{
-	
-	ArrayList<PheromoneKernel> kernelList = new ArrayList<PheromoneKernel>();
-	
-	public void addKernel(PheromoneKernel kernel, int[] origin){
-		kernelList.add(kernel);
-		kernel.apply(this, origin);
+public class PheromoneAreaMap extends CellGrid2D{
+
+	public PheromoneAreaMap(int row, int col) {
+		super(row, col);
 	}
 	
-	public CoordinatePair p = new CoordinatePair();
-	public int getConcentration(int ii, int kk){
-		p.pair[0] = ii;
-		p.pair[1] = kk;
-		ArrayList<Pheromone> plist = this.get(p);
-		if(plist == null) return 0;
-		int sum = 0;
-		for(Pheromone ph : plist){
-			sum += ph.decayCounter;
-		}
-		return sum;
+	@Override
+	public PheromoneCell get(int ii, int kk) {
+		return (PheromoneCell) super.get(ii, kk);
 	}
 	
 	public void decayAll(){
-		for(PheromoneKernel k : kernelList){
-			k.decay();
-		}
+		for(int ii = 0; ii < numRows; ii++){
+		for(int kk = 0; kk < numCols; kk++){
+			Cell n = get(ii, kk);
+			if(n != null && n instanceof PheromoneCell){
+				n.step(null);
+				if(((PheromoneCell) n).hasDecayed()){
+					this.set(ii, kk, null);
+				}
+			}
+		}}
 	}
-
-	public void removePheromone(CoordinatePair where, Pheromone p) {
-		this.get(where).remove(p);
-	}
+	
 }

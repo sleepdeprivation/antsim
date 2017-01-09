@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
+import Ant.Ant;
 import logic.Board;
 
 public class MainFrame extends JPanel{
@@ -25,18 +26,23 @@ public class MainFrame extends JPanel{
 	ScheduledExecutorService clock;// = new ThreadPoolExecutor();
 	Board board;
 	BoardImageGenerator imageGenerator;
-	public int NUMROWS = 1000;
-	public int NUMCOLS = 1000;
+	public int NUMROWS = 800;
+	public int NUMCOLS = 800;
+	public int CLOCK_SPEED = 50; //in millis
 	
 	public Runnable runner = new Runnable(){
 
+		int count = 0;
+		Object lock = new Object();
 		@Override
 		public void run() {
-			System.out.println("tick...");
-			board.run();
-			imageGenerator.createIntegerBoard();
-			imageGenerator.createPheromoneImage();
-			repaint();
+			//synchronized(lock){
+				//System.out.println("tick..." + (count++)%100);
+				board.run();
+				imageGenerator.createIntegerBoard();
+				imageGenerator.createPheromoneImage();
+				repaint();
+			//}
 		}
 
 	};
@@ -45,13 +51,31 @@ public class MainFrame extends JPanel{
 		setUpWindow();
 		board = new Board(NUMROWS, NUMCOLS);
 		imageGenerator = new BoardImageGenerator(board);
-//		board.run();
-//		board.run();
+		imageGenerator.createIntegerBoard();
+		imageGenerator.createPheromoneImage();
+
+		//keyRun();
+		clockRun();
+	}
+	
+	public void keyRun(){
+		while(true){
+			try {
+				System.in.read();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			runner.run();
+		}
+	}
+	
+	public void clockRun(){
 		clock = Executors.newSingleThreadScheduledExecutor();
 		clock.scheduleAtFixedRate(
 				    runner,
 				    0,
-				    200, TimeUnit.MILLISECONDS);
+				    CLOCK_SPEED, TimeUnit.MILLISECONDS);
 	}
 
 	public void setUpWindow(){
@@ -79,8 +103,24 @@ public class MainFrame extends JPanel{
 	  
 	public static void main(String[] args) throws IOException {
 		MainFrame frame = new MainFrame();
+		//wheelTest();
 		//int[] one = new int[]{ 1 , 2 } ;
 		//int[] two = new int[]{ 1 , 2 } ;
 		//System.out.println(Arrays.equals(one, two));
-	} 
+	}
+	
+	public static void wheelTest(){
+		/*int[][] i = Ant.getEmpiricalDist();
+		for(int ii = 0; ii < i.length; ii++){
+		for(int kk = 0; kk < i[ii].length; kk++){
+			System.out.print(i[ii][kk]);
+		}System.out.println("");}*/
+	}
+	
+	public void empTest(){
+		for(int ii = 0; ii < 100; ii++){
+			//int i = Ant.getWeightedRandomDirection(new int[]{20, 20});
+			//System.out.println(i);
+		}
+	}
 }
