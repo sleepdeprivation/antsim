@@ -1,3 +1,8 @@
+This was the initial proposed set of classes. There has been some pretty significant deviation in some cases but the the general structure is still there, so I'm going to leave this as a kind of documentation
+
+Generally, I've tried to comment things.
+
+
 ```
 Cell (Interface)
 	neighborhood : Neighborhood
