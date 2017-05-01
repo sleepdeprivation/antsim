@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import Aggregator.SquareAggregator;
 import Ant.Cell;
 import logic.CellGrid2D;
 import logic.CoordinatePair;
@@ -17,6 +18,13 @@ import logic.CoordinatePair;
  * arbitrary pheromones are implemented
  */
 public class PheromoneAreaMap extends CellGrid2D{
+	
+	public SquareAggregator aggregator = new SquareAggregator(this);
+	
+	public void reloadAggregator(){
+		aggregator.setAreaMap(this);
+		aggregator.aggregate();
+	}
 
 	public PheromoneAreaMap(int row, int col) {
 		super(row, col);

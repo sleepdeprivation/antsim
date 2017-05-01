@@ -35,8 +35,8 @@ public class FoodTile {
 	public int foodMargin = 20;
 
 	public void fillSolid(CellGrid2D grid){
-		for(int ii = boundary.x+foodMargin; ii < boundary.x + boundary.getWidth() - foodMargin;ii++){
-		for(int kk = boundary.y+foodMargin; kk < boundary.y + boundary.getHeight() - foodMargin;kk++){
+		for(int ii = boundary.x + foodMargin; ii < boundary.x + boundary.getWidth() - foodMargin;ii++){
+		for(int kk = boundary.y + foodMargin; kk < boundary.y + boundary.getHeight() - foodMargin;kk++){
 			grid.set(ii, kk, new SolidWall());
 		}}
 	}
@@ -44,30 +44,30 @@ public class FoodTile {
 	
 
 	public void removeSolid(CellGrid2D grid){
-		for(int ii = boundary.x+foodMargin; ii < boundary.x + boundary.getWidth() - foodMargin;ii++){
-		for(int kk = boundary.y+foodMargin; kk < boundary.y + boundary.getHeight() - foodMargin;kk++){
+		for(int ii = boundary.x + foodMargin; ii < boundary.x + boundary.getWidth() - foodMargin;ii++){
+		for(int kk = boundary.y + foodMargin; kk < boundary.y + boundary.getHeight() - foodMargin;kk++){
 			grid.set(ii, kk, null);
 		}}
 	}
 		
 	public void replenishPerimeter(CellGrid2D grid){
-		for(int ii = boundary.x+foodMargin; ii < boundary.x + boundary.getWidth() - foodMargin;ii++){
-				if(grid.get(ii, boundary.y + foodMargin) == null){
-					grid.set(ii, boundary.y + foodMargin, new FoodCell());
+		for(int ii = boundary.x + foodMargin; ii < boundary.x + boundary.getWidth() - foodMargin;ii++){
+				if(grid.get(ii, boundary.y + (int) boundary.getHeight() - foodMargin) == null){
+					grid.set(ii, boundary.y +(int) boundary.getHeight() - foodMargin, new FoodCell());
 					pointsRemaining--;
 				}
-				if(grid.get(ii, boundary.y + (int) boundary.getHeight() - foodMargin) == null){
-					//grid.set(ii, boundary.y + (int) boundary.getHeight() - foodMargin, new FoodCell());
+				if(grid.get(ii, boundary.y + foodMargin -1) == null){
+					grid.set(ii, boundary.y + foodMargin -1, new FoodCell());
 					pointsRemaining--;
 				}
 		}
-		for(int kk = boundary.y+foodMargin; kk < boundary.y + boundary.getHeight() - foodMargin;kk++){
-				if(grid.get(boundary.x+foodMargin, kk) == null){
-					grid.set(boundary.x+foodMargin, kk, new FoodCell());
+		for(int kk = boundary.y + foodMargin; kk < boundary.y + boundary.getHeight() - foodMargin;kk++){
+				if(grid.get(boundary.x + foodMargin -1, kk) == null){
+					grid.set(boundary.x + foodMargin -1, kk, new FoodCell());
 					pointsRemaining--;
 				}
-				if(grid.get(boundary.x + (int) boundary.getWidth()-foodMargin, kk) == null){
-					//grid.set(boundary.x + (int) boundary.getWidth()-foodMargin, kk, new FoodCell());
+				if(grid.get(boundary.x + (int) boundary.getWidth() - foodMargin, kk) == null){
+					grid.set(boundary.x + (int) boundary.getWidth() - foodMargin, kk, new FoodCell());
 					pointsRemaining--;
 				}
 		}

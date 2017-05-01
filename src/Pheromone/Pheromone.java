@@ -27,6 +27,7 @@ public abstract class Pheromone {
 	int decayCounter = DECAY_COUNTER_MAX; //arbitrary
 	int dDecay = 1;
 	int pheromoneType = 0;
+	int heading = 0;
 
 	public abstract boolean decay();
 	public abstract void renew();

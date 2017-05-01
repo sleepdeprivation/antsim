@@ -8,6 +8,7 @@ import logic.Board;
 import logic.CellGrid2D;
 import logic.Neighborhood;
 import logic.NumberGenerator;
+import logic.Utility;
 import request.MoveRequest;
 import request.PickupRequest;
 import request.PlacementRequest;
@@ -20,7 +21,7 @@ public class Ant implements Cell {
 
 	int[] location = new int[]{-1, -1};
 	int[] origin = new int[]{-1, -1};
-	int windowRadius = 30;
+	int windowRadius = 50;
 	int coolDownCounter;
 	NumberGenerator RNG = new NumberGenerator.UniformGenerator(0, 8);
 	public PheromoneCell[][] phNeighborhood;
@@ -123,24 +124,12 @@ public class Ant implements Cell {
 		return vals;
 	}
 	
-	public int getWeightedRandomDirection(int[] weights){
-		//weights = new int[]{80,1,1,1,1,1,1,1};
-		int[] cumSum = new int[weights.length];
-		int sum = 0;//weights[0];
-		for(int ii = 0; ii < weights.length; ii++){
-			sum += weights[ii];
-			cumSum[ii] = sum;
-		}
-		int ra = new NumberGenerator.UniformGenerator(0, sum).generate();
-		int winningIndex = 0;
-		while(winningIndex < weights.length && ra > cumSum[winningIndex%8]){
-			winningIndex++;
-		}
-		//System.out.println(winningIndex + ",");
-		return winningIndex%8;
-	}
+
 	
 	public boolean give(Cell c){
+		if(this.hasItems){
+			return false;
+		}
 		this.inventory.add(c);
 		this.hasItems = true;
 		//System.out.println("got inventory");
@@ -178,7 +167,7 @@ public class Ant implements Cell {
 		if(foodLocation != null){
 			requestQueue.add(new PickupRequest(this, this.location, foodLocation));
 		}else{
-			empiricalBehavior(requestQueue);
+			defaultBehavior(requestQueue);
 		}
 	}
 	
@@ -195,6 +184,10 @@ public class Ant implements Cell {
 	}
 	*/
 	
+	public void defaultBehavior(PriorityQueue<Request> requestQueue) {
+		empiricalBehavior(requestQueue);		
+	}
+
 	public boolean nearToAnthill(){
 		return this.hasItems && (Math.abs(location[0] - origin[0]) < 20) &&
 				(Math.abs(location[1] - origin[1]) < 20);
@@ -218,7 +211,7 @@ public class Ant implements Cell {
 
 	public void empiricalBehavior(PriorityQueue<Request> requestQueue){
 		int[] weights = this.getEmpiricalDist();
-		int dir = getWeightedRandomDirection(weights);
+		int dir = Utility.getWeightedRandomDirection(weights);
 		//System.out.println(dir);
 		int[] newLocation = this.moveDirection(dir, location);
 		//make a request to perform the move

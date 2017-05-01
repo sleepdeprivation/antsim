@@ -27,7 +27,7 @@ public class Anthill implements Cell {
 	public void step(PriorityQueue<Request> requestQueue) {
 		if(num_ants > 0){
 			//System.out.println("making an ant");
-			requestQueue.add(new PlacementRequest(new Ant(location, this), generateNewLocation()));
+			requestQueue.add(new PlacementRequest(new Ant2(location, this), generateNewLocation()));
 			num_ants--;
 		}
 	}

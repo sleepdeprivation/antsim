@@ -7,6 +7,7 @@ import java.util.PriorityQueue;
 import java.util.function.Predicate;
 
 import Ant.Ant;
+import Ant.Ant2;
 import Ant.Anthill;
 import Ant.Cell;
 import Ant.FoodCell;
@@ -29,12 +30,24 @@ public class Board extends CellGrid2D{
 	
 	public Board(int row, int col){
 		super(row, col);
+		setBoundaryWall();
 		pheromoneMap = new PheromoneAreaMap(row, col);
 		demoSetup();
 		/*for(int ii = 0; ii < NUM_HILLS; ii++){
 			this.placeAnthill();
 			this.placeFood();
 		}*/
+	}
+	
+	public void setBoundaryWall(){
+		for(int ii = 0; ii < this.numRows; ii++){
+			this.set(ii, 0, new SolidWall());
+			this.set(ii, this.numCols-1, new SolidWall());
+		}
+		for(int kk = 0; kk < this.numCols; kk++){
+			this.set(0, kk, new SolidWall());
+			this.set(this.numRows-1, kk, new SolidWall());
+		}
 	}
 	
 	public void run(){
@@ -47,6 +60,8 @@ public class Board extends CellGrid2D{
 		processRequests();
 		//System.out.println("completed board functions");
 		pheromoneMap.decayAll();
+		//System.out.println("reloading the aggregator");
+		pheromoneMap.reloadAggregator();
 	}
 	
 	public void processFoodTiles(){
@@ -170,6 +185,7 @@ public class Board extends CellGrid2D{
 	
 
 	public void placeFoodTile(int x, int y){
+		System.out.println("placing food tile...");
 		this.foodTiles.add(new FoodTile(x, y, 50, 50, this));
 	}
 	
@@ -238,7 +254,7 @@ public class Board extends CellGrid2D{
 			int x = u.generate() + lR;
 			int y = u.generate() + lC;
 			if(this.get(x, y) == null){
-				this.set(x, y, new Ant());
+				this.set(x, y, new Ant2());
 				numAnts--;
 			}
 		}

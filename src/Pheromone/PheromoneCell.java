@@ -42,4 +42,11 @@ public class PheromoneCell implements Cell {
 		return (double)pheromone.decayCounter / (double)Pheromone.DECAY_COUNTER_MAX;
 	}
 
+	public int getHeading() {
+		if(this.pheromone != null){
+			return this.pheromone.heading;
+		}
+		return -1;
+	}
+
 }

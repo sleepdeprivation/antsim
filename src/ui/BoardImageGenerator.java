@@ -53,7 +53,7 @@ public void loadImages(){
 	}
 	foodSprites = new BufferedImage[4][4];
 	//foods
-	for(int ii = 0; ii < 4*50; ii+=50){
+	for(int ii = 0; ii < 3*50; ii+=50){
 	for(int kk = 0; kk < 4*50; kk+=50){
 		foodSprites[ii/50][kk/50] = m.getSubimage(ii, kk, 50, 50);
 	}}
@@ -122,7 +122,7 @@ public void drawBackground(BufferedImage onto){
 							,new int[]{green.getRGB()}, 0, 1);*/
 			}
 		}}
-		//drawFoodTiles(g);
+		drawFoodTiles(g);
 		return im;
 	}
 	
