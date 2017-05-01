@@ -2,6 +2,7 @@ This was the initial proposed set of classes. There has been some pretty signifi
 
 Generally, I've tried to comment things.
 
+You can see the school writeup [here](/AntSim.pdf)
 
 ```
 Cell (Interface)
